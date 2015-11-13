@@ -3,24 +3,66 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:EmotionDetector.WinPhone"
+    xmlns:common="using:EmotionDetector.WinPhone.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <common:FloatToPercentConverter x:Key="FloatToPercentConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <CaptureElement x:Name="capturePreview" Stretch="UniformToFill" />
+        
         <Viewbox>
             <Grid x:Name="resultCanvas">
                 <Image x:Name="imagePreview" />
-             </Grid>
+            </Grid>
         </Viewbox>
-        <Button Grid.Row="1" x:Name="button" Content="Cheeeese!" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                Click="button_Click" />
-        
+        <CaptureElement x:Name="capturePreview" Stretch="UniformToFill"/>
+        <Button x:Name="photoButton" Content="Cheeeese!" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                Click="photoButton_Click" />
+        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                Click="backButton_Click" Visibility="Collapsed"/>
+        <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="True" IsActive="True"
+                      Foreground="Blue" Background="Transparent"
+                      Visibility="{Binding IsDataLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <Grid Grid.Row="1" Margin="5,0" x:Name="dataGrid"> 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Anger"/>
+            <TextBlock Text="Contempt" Grid.Row="1"/>
+            <TextBlock Text="Disgust" Grid.Row="2"/>
+            <TextBlock Text="Fear" Grid.Row="3"/>
+            <TextBlock Text="Happiness" Grid.Row="4"/>
+            <TextBlock Text="Neutral" Grid.Row="5"/>
+            <TextBlock Text="Sadness" Grid.Row="6"/>
+            <TextBlock Text="Surprise" Grid.Row="7"/>
+            <ProgressBar Grid.Column="1" Value="{Binding Anger, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="1" Value="{Binding Contempt, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="2" Value="{Binding Disgust, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="3" Value="{Binding Fear, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="4" Value="{Binding Happiness, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="5" Value="{Binding Neutral, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="6" Value="{Binding Sadness, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+            <ProgressBar Grid.Column="1" Grid.Row="7" Value="{Binding Surprise, Converter={StaticResource FloatToPercentConverter}}" Foreground="#FF497EC7"/>
+        </Grid>
+
     </Grid>
 </Page>
