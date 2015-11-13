@@ -61,7 +61,10 @@ namespace EmotionDetector.Droid
 		{
 			
 			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			public const int imageView1 = 2131034112;
+			
+			// aapt resource value: 0x7f050001
+			public const int myButton = 2131034113;
 			
 			static Id()
 			{
@@ -92,11 +95,14 @@ namespace EmotionDetector.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
-			
 			// aapt resource value: 0x7f040000
-			public const int hello = 2130968576;
+			public const int app_name = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int backButton = 2130968578;
+			
+			// aapt resource value: 0x7f040001
+			public const int openCameraButton = 2130968577;
 			
 			static String()
 			{
