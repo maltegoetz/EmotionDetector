@@ -9,6 +9,7 @@ namespace EmotionDetector.iOS
 {
 	public partial class ViewController : UIViewController
 	{
+		EmotionViewModel _vm;
 		public ViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -16,12 +17,14 @@ namespace EmotionDetector.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+			_vm = new EmotionViewModel();
 			btChooseImage.TouchUpInside += BtChooseImage_TouchUpInside;
 			btDrawRects.TouchUpInside += BtDrawRects_TouchUpInside;
 		}
 
 		void BtDrawRects_TouchUpInside (object sender, EventArgs e)
 		{
+			
 			DrawTestRect ();
 		}
 			

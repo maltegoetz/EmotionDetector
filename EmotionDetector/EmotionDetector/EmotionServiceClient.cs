@@ -44,6 +44,7 @@ using System.Threading.Tasks;
 using EmotionDetector.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using ModernHttpClient;
 
 namespace EmotionDetector.Emotion
 {
@@ -93,7 +94,7 @@ namespace EmotionDetector.Emotion
             ContractResolver = s_defaultResolver
         };
 
-        private static HttpClient s_httpClient = new HttpClient();
+        private static HttpClient s_httpClient = new HttpClient(new NativeMessageHandler());
         private readonly HttpClient _httpClient;
         #endregion
 
@@ -142,9 +143,9 @@ namespace EmotionDetector.Emotion
         /// </summary>
         /// <param name="imageStream">Stream of the image</param>
         /// <returns>Async task, which, upon completion, will return rectangle and emotion scores for each recognized face.</returns>
-        public async Task<Contract.Emotion[]> RecognizeAsync(Stream imageStream)
+        public Task<Contract.Emotion[]> RecognizeAsync(Stream imageStream)
         {
-            return await RecognizeAsync(imageStream, null);
+            return RecognizeAsync(imageStream, null);
         }
 
         /// <summary>
@@ -152,9 +153,9 @@ namespace EmotionDetector.Emotion
         /// </summary>
         /// <param name="imageStream">Stream of the image</param>
         /// <returns>Async task, which, upon completion, will return rectangle and emotion scores for each face.</returns>        
-        public async Task<Contract.Emotion[]> RecognizeAsync(Stream imageStream, Rectangle[] faceRectangles)
+        public Task<Contract.Emotion[]> RecognizeAsync(Stream imageStream, Rectangle[] faceRectangles)
         {
-            return await SendRequestAsync<Stream, Contract.Emotion[]>(faceRectangles, imageStream);
+            return SendRequestAsync<Stream, Contract.Emotion[]>(faceRectangles, imageStream);
         }
         #endregion
 

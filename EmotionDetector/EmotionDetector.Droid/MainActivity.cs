@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using EmotionDetector.Droid.Common;
 using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Media;
 
 namespace EmotionDetector.Droid
 {
@@ -46,55 +47,43 @@ namespace EmotionDetector.Droid
         }
         private void TakeAPicture(object sender, EventArgs eventArgs)
         {
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
-            App._file = new Java.IO.File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-            intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(App._file));
-            StartActivityForResult(intent, 0);
+            //Intent intent = new Intent(MediaStore.ActionImageCapture);
+            //App._file = new Java.IO.File(App._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            //intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(App._file));
+
+            var picker = new MediaPicker(this);
+
+            var intent = picker.GetTakePhotoUI(new StoreCameraMediaOptions
+            {
+                Name = "test.jpg",
+                Directory = "MediaPickerSample"
+            });
+            StartActivityForResult(intent, 1);
         }
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            
-                // Make it available in the gallery
+            try
+            {
+                // User canceled
+                if (resultCode == Result.Canceled)
+                    return;
 
-                Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-                Android.Net.Uri contentUri = Android.Net.Uri.FromFile(App._file);
-                mediaScanIntent.SetData(contentUri);
-                SendBroadcast(mediaScanIntent);
+                MediaFile file = await data.GetMediaFileExtraAsync(this);
 
-                // Display in ImageView. We will resize the bitmap to fit the display.
-                // Loading the full sized image will consume to much memory
-                // and cause the application to crash.
-
-                int height = Resources.DisplayMetrics.HeightPixels;
-                int width = _imgView.Height;
-                App.bitmap = BitmapHelpers.LoadAndResizeBitmap(App._file.Path, width, height);
-                if (App.bitmap != null)
-                {
-                    _imgView.SetImageBitmap(App.bitmap);
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            using (var stream = new MemoryStream())
-                            {
-                                App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 0, stream);
-                                await _vm.Load(stream);
-                                stream.Close();
-                            }
-                            App.bitmap = null;
-                        }
-                        catch (Exception e) {
-                        }
-                    });
-                    
-                }
-                // Dispose of the Java side bitmap.
-                GC.Collect();
-            
+                _imgView.SetImageBitmap(BitmapFactory.DecodeFile(file.Path));
+                
+                await _vm.Load(file.GetStream());
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
+
     public static class App
     {
         public static Java.IO.File _file;
