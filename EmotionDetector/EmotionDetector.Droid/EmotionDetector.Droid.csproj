@@ -50,6 +50,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EmotionDetector\EmotionDetector.csproj">
       <Name>EmotionDetector</Name>
+      <Project>{4EFF687D-F821-42E2-8C6F-D4B47C7AE080}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
