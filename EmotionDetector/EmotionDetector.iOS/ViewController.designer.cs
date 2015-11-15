@@ -20,6 +20,10 @@ namespace EmotionDetector.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIEmotionStat esStat { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView ivImage { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -27,6 +31,10 @@ namespace EmotionDetector.iOS
 			if (btChooseImage != null) {
 				btChooseImage.Dispose ();
 				btChooseImage = null;
+			}
+			if (esStat != null) {
+				esStat.Dispose ();
+				esStat = null;
 			}
 			if (ivImage != null) {
 				ivImage.Dispose ();

@@ -158,6 +158,8 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\UIFaceButton.cs" />
+    <Compile Include="StyleKit.cs" />
+    <Compile Include="Controls\UIEmotionStat.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

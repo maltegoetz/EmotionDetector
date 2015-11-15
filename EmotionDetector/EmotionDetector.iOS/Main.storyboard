@@ -17,13 +17,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="217" customClass="UIEmotionStat" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="20" y="540" width="160" height="240"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint id="221" firstItem="217" firstAttribute="height" constant="302"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="221"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="221"/>
+                                    </mask>
+                                    <rect key="frame" x="0.0" y="434" width="414" height="302"/>
+                                </variation>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="177" y="659" width="46" height="30"/>
                                 <state key="normal" title="Choose Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=compact">
-                                    <rect key="frame" x="150.5" y="430" width="99" height="30"/>
+                                    <rect key="frame" x="157.5" y="430" width="99" height="30"/>
                                 </variation>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="6" translatesAutoresizingMaskIntoConstraints="NO">
@@ -40,7 +58,7 @@
                                     <mask key="constraints">
                                         <include reference="10"/>
                                     </mask>
-                                    <rect key="frame" x="0.0" y="20" width="400" height="400"/>
+                                    <rect key="frame" x="0.0" y="20" width="414" height="400"/>
                                 </variation>
                             </imageView>
                         </subviews>
@@ -48,6 +66,7 @@
                             <mask key="subviews">
                                 <exclude reference="3"/>
                                 <exclude reference="6"/>
+                                <exclude reference="217"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="4"/>
@@ -55,12 +74,16 @@
                                 <exclude reference="8"/>
                                 <exclude reference="9"/>
                                 <exclude reference="210"/>
+                                <exclude reference="218"/>
+                                <exclude reference="219"/>
+                                <exclude reference="220"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="3"/>
                                 <include reference="6"/>
+                                <include reference="217"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="4"/>
@@ -68,6 +91,9 @@
                                 <include reference="8"/>
                                 <include reference="9"/>
                                 <include reference="210"/>
+                                <include reference="218"/>
+                                <include reference="219"/>
+                                <include reference="220"/>
                             </mask>
                         </variation>
                         <constraints>
@@ -76,11 +102,15 @@
                             <constraint firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" constant="0.0" id="8"/>
                             <constraint firstItem="6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="0.0" id="9"/>
                             <constraint firstItem="3" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="10" id="210"/>
+                            <constraint firstItem="8bC-Xf-vdC" firstAttribute="bottom" secondItem="217" secondAttribute="bottom" constant="0.0" id="218"/>
+                            <constraint firstItem="8bC-Xf-vdC" firstAttribute="trailing" secondItem="217" secondAttribute="trailing" constant="0.0" id="219"/>
+                            <constraint firstItem="217" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="0.0" id="220"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btChooseImage" destination="3" id="name-outlet-3"/>
                         <outlet property="ivImage" destination="6" id="name-outlet-6"/>
+                        <outlet property="esStat" destination="217" id="name-outlet-217"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -88,4 +118,7 @@
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedScreenMetrics key="destination" type="retina55"/>
+    </simulatedMetricsContainer>
 </document>

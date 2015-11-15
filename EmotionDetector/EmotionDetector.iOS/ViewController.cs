@@ -1,10 +1,8 @@
 ﻿using System;
-
 using UIKit;
 using Xamarin.Media;
 using System.Threading.Tasks;
 using CoreGraphics;
-using System.Drawing;
 using Model = EmotionDetector.Emotion.Contract;
 
 namespace EmotionDetector.iOS
@@ -58,6 +56,7 @@ namespace EmotionDetector.iOS
 
 		void BtChooseImage_TouchUpInside (object sender, EventArgs e)
 		{
+			esStat.Reset ();
 			var picker = new MediaPicker();
 			picker.TakePhotoAsync(new StoreCameraMediaOptions {
 				Name = "emo.jpg",
@@ -74,8 +73,10 @@ namespace EmotionDetector.iOS
 		{
 			var bt = sender as UIFaceButton;
 
-			var alert = new UIAlertView ("DON'T TOUCH ME!", $"Happy: {bt.Scores.Happiness}", null, "OK", null);
-			alert.Show ();
+			//var alert = new UIAlertView ("DON'T TOUCH ME!", $"Happy: {bt.Scores.Happiness}", null, "OK", null);
+
+			//alert.Show ();
+			esStat.Scores = bt.Scores;
 		}
 
 		// resize the image to be contained within a maximum width and height, keeping aspect ratio
