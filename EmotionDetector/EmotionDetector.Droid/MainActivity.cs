@@ -22,7 +22,6 @@ namespace EmotionDetector.Droid
     [Activity(Label = "Emotion Detector", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
-        ImageView _imgView;
         EmotionViewModel _vm;
 
         protected override void OnCreate(Bundle bundle)
@@ -33,7 +32,7 @@ namespace EmotionDetector.Droid
             Button photobutton = FindViewById<Button>(Resource.Id.myButton);
             photobutton.Click += TakeAPicture;
             CreateDirectoryForPictures();
-            _imgView = FindViewById<ImageView>(Resource.Id.imageView1);
+            
         }
 
         private void CreateDirectoryForPictures()
@@ -79,38 +78,35 @@ namespace EmotionDetector.Droid
                 progressBar.Visibility = ViewStates.Visible;
 
                 var bmp = BitmapFactory.DecodeFile(file.Path);
+                ImageView _imgView = FindViewById<ImageView>(Resource.Id.imageView1);
                 _imgView.SetImageBitmap(bmp);
-                
+
                 await _vm.Load(file.GetStream());
-                
+
                 float scale;
 
                 if (_imgView.Width / bmp.Width >= _imgView.Height / bmp.Height)
                 {
-                    //Hochformat
                     scale = (float)bmp.Height / _imgView.Height;
-                    //scale = imageFrame.Width / imageSize.Width;
                 }
                 else
                 {
-                    //Querformat
                     scale = (float)bmp.Width / _imgView.Width;
-                    //scale = imageFrame.Height / imageSize.Height;
                 }
 
                 var relX = (_imgView.Width - bmp.Width / scale) / 2;
                 var relY = (_imgView.Height - bmp.Height / scale) / 2;
-                foreach(Emotion.Contract.Emotion emo in _vm.Emotions)
+                foreach (Emotion.Contract.Emotion emo in _vm.Emotions)
                 {
                     var butt = new Button(this);
                     GradientDrawable drawable = new GradientDrawable();
                     drawable.SetShape(ShapeType.Rectangle);
-                    drawable.SetStroke(5, Color.Rgb(34,135,202));
+                    drawable.SetStroke(5, Color.Rgb(34, 135, 202));
                     drawable.SetColor(Color.Transparent);
                     butt.Background = drawable;
                     var layoutparams = new RelativeLayout.LayoutParams((int)Math.Ceiling(emo.FaceRectangle.Width / scale), (int)Math.Ceiling(emo.FaceRectangle.Height / scale));
                     layoutparams.SetMargins((int)Math.Ceiling(emo.FaceRectangle.Left / scale + relX), (int)Math.Ceiling(emo.FaceRectangle.Top / scale + relY), 0, 0);
-                    
+
                     butt.LayoutParameters = layoutparams;
                     butt.SetPadding(0, 0, 0, 0);
                     butt.Click += (e, s) =>
@@ -128,10 +124,7 @@ namespace EmotionDetector.Droid
                     progressBar.Visibility = ViewStates.Invisible;
                 }
             }
-            catch (Exception e)
-            {
-                
-            }
+            catch { }
         }
     }
 
