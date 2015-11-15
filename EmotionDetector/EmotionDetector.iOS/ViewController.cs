@@ -22,13 +22,6 @@ namespace EmotionDetector.iOS
 			base.ViewDidLoad ();
 			_vm = new EmotionViewModel();
 			btChooseImage.TouchUpInside += BtChooseImage_TouchUpInside;
-			btDrawRects.TouchUpInside += BtDrawRects_TouchUpInside;
-		}
-
-		async void BtDrawRects_TouchUpInside (object sender, EventArgs e)
-		{
-			await _vm.Load (ivImage.Image.AsPNG().AsStream());
-			DrawRects (_vm.Emotions);
 		}
 			
 		void DrawRects(Model.Emotion[] emotions)
@@ -42,25 +35,24 @@ namespace EmotionDetector.iOS
 			{
 				//Hochformat
 				scale = imageSize.Height / imageFrame.Height;
-				//scale = imageFrame.Width / imageSize.Width;
 			} else
 			{
 				//Querformat
 				scale = imageSize.Width / imageFrame.Width;
-				//scale = imageFrame.Height / imageSize.Height;
 			}
 
-			var relX = (imageFrame.Width - imageSize.Width / scale ) / 2;
-			var relY = (imageFrame.Height - imageSize.Height / scale) / 2;
+			var relX = (imageFrame.Width - imageSize.Width / scale ) / 2 + imageFrame.X;
+			var relY = (imageFrame.Height - imageSize.Height / scale) / 2 + imageFrame.Y;
 
 			foreach (Model.Emotion emotion in emotions)
 			{
-				UILabel l = new UILabel(new CGRect(relX + emotion.FaceRectangle.Left / scale, 
-					relY + emotion.FaceRectangle.Top / scale, emotion.FaceRectangle.Width / scale, 
-					emotion.FaceRectangle.Width / scale));
-				l.BackgroundColor = UIColor.Blue;
-				l.Text = "";
-				ivImage.AddSubview (l);
+				var b = new UIFaceButton (); 
+				b.Frame = new CGRect (relX + emotion.FaceRectangle.Left / scale, 
+					        relY + emotion.FaceRectangle.Top / scale, emotion.FaceRectangle.Width / scale, 
+					        emotion.FaceRectangle.Width / scale);
+				b.Scores = emotion.Scores;
+				b.TouchUpInside += FaceRect_TouchUpInside;
+				View.AddSubview (b);
 			}
 		}
 
@@ -70,10 +62,20 @@ namespace EmotionDetector.iOS
 			picker.TakePhotoAsync(new StoreCameraMediaOptions {
 				Name = "emo.jpg",
 				Directory = "EmotionDetector"
-			}).ContinueWith (t => {
+			}).ContinueWith (async t => {
 				MediaFile file = t.Result;
 				ivImage.Image = MaxResizeImage(UIImage.FromFile(file.Path), 640, 640);
+				await _vm.Load (ivImage.Image.AsPNG().AsStream());
+				DrawRects (_vm.Emotions);
 			}, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		void FaceRect_TouchUpInside (object sender, EventArgs e)
+		{
+			var bt = sender as UIFaceButton;
+
+			var alert = new UIAlertView ("DON'T TOUCH ME!", $"Happy: {bt.Scores.Happiness}", null, "OK", null);
+			alert.Show ();
 		}
 
 		// resize the image to be contained within a maximum width and height, keeping aspect ratio
@@ -92,4 +94,3 @@ namespace EmotionDetector.iOS
 		}
 	}
 }
-
