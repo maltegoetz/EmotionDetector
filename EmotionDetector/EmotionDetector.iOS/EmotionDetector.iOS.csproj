@@ -71,6 +71,9 @@
     <Reference Include="Xamarin.Mobile">
       <HintPath>..\..\Components\xamarin.mobile-0.7.7\lib\ios-unified\Xamarin.Mobile.dll</HintPath>
     </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmotionDetector\EmotionDetector.csproj">
@@ -142,6 +145,7 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

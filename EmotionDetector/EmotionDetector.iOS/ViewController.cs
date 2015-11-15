@@ -4,6 +4,8 @@ using UIKit;
 using Xamarin.Media;
 using System.Threading.Tasks;
 using CoreGraphics;
+using System.Drawing;
+using Model = EmotionDetector.Emotion.Contract;
 
 namespace EmotionDetector.iOS
 {
@@ -22,13 +24,14 @@ namespace EmotionDetector.iOS
 			btDrawRects.TouchUpInside += BtDrawRects_TouchUpInside;
 		}
 
-		void BtDrawRects_TouchUpInside (object sender, EventArgs e)
+		async void BtDrawRects_TouchUpInside (object sender, EventArgs e)
 		{
-			
+			await _vm.Load (ivImage.Image.AsPNG().AsStream());
+			DrawRects (_vm.Emotions);
 			DrawTestRect ();
 		}
 			
-		void DrawTestRect()
+		void DrawRects(Model.Emotion[] emotions)
 		{
 			//Find top left corner of the Image
 			var imageFrame = ivImage.Frame;
@@ -50,31 +53,36 @@ namespace EmotionDetector.iOS
 			var relX = (imageFrame.Width - imageSize.Width / scale ) / 2;
 			var relY = (imageFrame.Height - imageSize.Height / scale) / 2;
 
-			/*UILabel l = new UILabel(new CGRect(relX, relY, 90, 80));
-			l.BackgroundColor = UIColor.Blue;
-			l.Text = "Hello World";
-			ivImage.AddSubview (l);*/
-
-			var box = new UIFaceBox ();
-			ivImage.AddSubview (box);
-		}
-
-		void BtChooseImage_TouchUpInside (object sender, EventArgs e)
-		{
-			var picker = new MediaPicker();
-			picker.TakePhotoAsync(new StoreCameraMediaOptions {
-				Name = "emo.jpg",
-				Directory = "EmotionDetector"
-			}).ContinueWith (t => {
-				MediaFile file = t.Result;
-				ivImage.Image = UIImage.FromFile(file.Path);
-			}, TaskScheduler.FromCurrentSynchronizationContext());
+			foreach (Model.Emotion emotion in emotions)
+			{
+				UILabel l = new UILabel(new CGRect(relX + emotion.FaceRectangle.Left / scale, 
+					relY + emotion.FaceRectangle.Top / scale, emotion.FaceRectangle.Width / scale, 
+					emotion.FaceRectangle.Width / scale));
+				l.BackgroundColor = UIColor.Blue;
+				l.Text = "";
+				ivImage.AddSubview (l);
+			}
 		}
 
 		public override void DidReceiveMemoryWarning ()
 		{
 			base.DidReceiveMemoryWarning ();
 			// Release any cached data, images, etc that aren't in use.
+		}
+
+		// resize the image to be contained within a maximum width and height, keeping aspect ratio
+		public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
+		{
+			var sourceSize = sourceImage.Size;
+			var maxResizeFactor = Math.Max(maxWidth / sourceSize.Width, maxHeight / sourceSize.Height);
+			if (maxResizeFactor > 1) return sourceImage;
+			var width = maxResizeFactor * sourceSize.Width;
+			var height = maxResizeFactor * sourceSize.Height;
+			UIGraphics.BeginImageContext(new CGSize(width, height));
+			sourceImage.Draw(new CGRect(0, 0, width, height));
+			var resultImage = UIGraphics.GetImageFromCurrentImageContext();
+			UIGraphics.EndImageContext();
+			return resultImage;
 		}
 	}
 }
