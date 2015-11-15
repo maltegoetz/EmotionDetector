@@ -20,10 +20,6 @@ namespace EmotionDetector.iOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btDrawRects { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
 		UIImageView ivImage { get; set; }
 
 		void ReleaseDesignerOutlets ()
@@ -31,10 +27,6 @@ namespace EmotionDetector.iOS
 			if (btChooseImage != null) {
 				btChooseImage.Dispose ();
 				btChooseImage = null;
-			}
-			if (btDrawRects != null) {
-				btDrawRects.Dispose ();
-				btDrawRects = null;
 			}
 			if (ivImage != null) {
 				ivImage.Dispose ();
