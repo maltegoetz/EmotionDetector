@@ -62,6 +62,9 @@
     <IpaPackageName>
     </IpaPackageName>
     <CodesignProvision>97c4fad8-b8e5-429f-96dc-ab17d45ac2ab</CodesignProvision>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

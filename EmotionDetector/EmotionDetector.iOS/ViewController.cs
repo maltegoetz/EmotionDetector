@@ -12,6 +12,7 @@ namespace EmotionDetector.iOS
 	public partial class ViewController : UIViewController
 	{
 		EmotionViewModel _vm;
+
 		public ViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -28,7 +29,6 @@ namespace EmotionDetector.iOS
 		{
 			await _vm.Load (ivImage.Image.AsPNG().AsStream());
 			DrawRects (_vm.Emotions);
-			DrawTestRect ();
 		}
 			
 		void DrawRects(Model.Emotion[] emotions)
@@ -64,10 +64,16 @@ namespace EmotionDetector.iOS
 			}
 		}
 
-		public override void DidReceiveMemoryWarning ()
+		void BtChooseImage_TouchUpInside (object sender, EventArgs e)
 		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
+			var picker = new MediaPicker();
+			picker.TakePhotoAsync(new StoreCameraMediaOptions {
+				Name = "emo.jpg",
+				Directory = "EmotionDetector"
+			}).ContinueWith (t => {
+				MediaFile file = t.Result;
+				ivImage.Image = MaxResizeImage(UIImage.FromFile(file.Path), 640, 640);
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
 		// resize the image to be contained within a maximum width and height, keeping aspect ratio
