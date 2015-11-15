@@ -60,7 +60,7 @@ namespace EmotionDetector.Droid
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-
+            var progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             try
             {
                 // User canceled
@@ -74,7 +74,7 @@ namespace EmotionDetector.Droid
                 {
                     rellayout.RemoveViewAt(i);
                 }
-                var progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+                
                 progressBar.Visibility = ViewStates.Visible;
 
                 var bmp = BitmapFactory.DecodeFile(file.Path);
@@ -121,10 +121,9 @@ namespace EmotionDetector.Droid
                         (FindViewById<ProgressBar>(Resource.Id.surpriseProgressBar)).Progress = (int)Math.Ceiling(emo.Scores.Surprise * 100);
                     };
                     rellayout.AddView(butt);
-                    progressBar.Visibility = ViewStates.Invisible;
                 }
             }
-            catch { }
+            finally{ progressBar.Visibility = ViewStates.Invisible; }
         }
     }
 
