@@ -40,9 +40,9 @@ namespace EmotionDetector.iOS
 			if (Scores != null)
 				StyleKit.DrawEmotionStatView (rect, Scores.Anger * 100, Scores.Contempt * 100, 
 					Scores.Disgust * 100, Scores.Fear * 100, Scores.Happiness * 100, 
-					Scores.Neutral * 100, Scores.Sadness * 100, Scores.Surprise * 100);
+					Scores.Neutral * 100, Scores.Sadness * 100, Scores.Surprise * 100, (int)this.Bounds.Size.Height);
 			else
-				StyleKit.DrawEmotionStatView(rect, 0, 0, 0, 0, 0, 0, 0, 0);
+				StyleKit.DrawEmotionStatView(rect, 0, 0, 0, 0, 0, 0, 0, 0, (int)this.Bounds.Size.Height);
 		}
 
 		void AnimateNewValues()

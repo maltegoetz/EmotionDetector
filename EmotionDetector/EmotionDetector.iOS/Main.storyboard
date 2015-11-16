@@ -13,15 +13,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="217" customClass="UIEmotionStat" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                            <view contentMode="scaleToFill" id="217" customClass="UIEmotionStat" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="20" y="540" width="160" height="240"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint id="221" firstItem="217" firstAttribute="height" constant="302"/>
+                                    <constraint id="221" firstItem="217" firstAttribute="height" constant="270"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -32,7 +32,7 @@
                                     <mask key="constraints">
                                         <include reference="221"/>
                                     </mask>
-                                    <rect key="frame" x="0.0" y="434" width="414" height="302"/>
+                                    <rect key="frame" x="0.0" y="466" width="414" height="270"/>
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3" translatesAutoresizingMaskIntoConstraints="NO">
